@@ -1,9 +1,9 @@
 'use strict';
 
 var narcissistic = function(num) {
-  var numStr = String(num)
-  var ln = numStr.length
-  var sum = 0;
+  var numStr = String(num),
+    ln = numStr.length,
+    sum = 0;
 
   // get each digit, and raise it to the pow(length)
   for (var i=0; i<=ln-1; i++) {
