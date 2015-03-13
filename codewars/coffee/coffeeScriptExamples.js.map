@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "coffeeScriptExamples.js",
+  "sourceRoot": "",
+  "sources": [
+    "coffeeScriptExamples.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAQA;AAAA,MAAA,OAAA;;AAAA,UAAO,QAAP;AAAA,SACO,CADP;AACc,MAAA,OAAA,GAAU,gBAAV,CADd;AACO;AADP,SAEO,CAFP;AAEc,MAAA,OAAA,GAAU,8BAAV,CAFd;AAEO;AAFP;AAGO,MAAA,OAAA,GAAU,4CAAV,CAHP;AAAA,GAAA;;AAWA,EAAA,IAAG,oDAAH;AAAkB,IAAA,UAAA,CAAW,QAAX,CAAA,CAAlB;GAAA,MAAA;AAA4C,IAAA,UAAA,CAAA,CAAA,CAA5C;GAXA;AAAA"
+}

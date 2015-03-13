@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/coffee/stringTest.js" />
+        <item url="file://$PROJECT_DIR$/coffee/switchWhenThenElse.js" />
+        <item url="file://$PROJECT_DIR$/coffee/coffeeScriptExamples.js" />
+        <item url="file://$PROJECT_DIR$/projectPartners/projectPartners.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/coffee/stringTest.js" />
+      <root url="file://$PROJECT_DIR$/coffee/switchWhenThenElse.js" />
+      <root url="file://$PROJECT_DIR$/coffee/coffeeScriptExamples.js" />
+      <root url="file://$PROJECT_DIR$/projectPartners/projectPartners.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

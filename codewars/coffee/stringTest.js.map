@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "stringTest.js",
+  "sourceRoot": "",
+  "sources": [
+    "stringTest.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,MAAA;;AAAA,EAAA,MAAA,GAAS,CAAC,KAAD,EAAQ,MAAR,EAAgB,MAAhB,EAAwB,MAAxB,CAAT,CAAA;;AAAA,EACA,OAAO,CAAC,GAAR,CAAY,wBAAZ,CADA,CAAA;AAAA"
+}

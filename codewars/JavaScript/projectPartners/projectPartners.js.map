@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "projectPartners.js",
+  "sourceRoot": "",
+  "sources": [
+    "projectPartners.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAGA;AAAA,MAAA,eAAA;;AAAA,EAAA,eAAA,GAAkB,SAAC,CAAD,GAAA;WAAO,CAAA,GAAI,CAAC,CAAA,GAAI,CAAL,CAAJ,GAAc,EAArB;EAAA,CAAlB,CAAA;AAAA"
+}
