@@ -5,7 +5,8 @@ var directions = require('./directions'),
   View = require('./view'),
   World = require('./world'),
   Grid = require('./grid'),
-  BouncingCritter = require('./critters/BouncingCritter');
+  BouncingCritter = require('./critters/BouncingCritter'),
+  WallFlower = require('./critters/WallFlower');
 
 // NOT USED?
 // var grid = ["top left", "top middle", "top right",
@@ -18,37 +19,47 @@ function Wall() {
 }
 
 
-//var directionNames = "n ne e se s sw w nw".split(" ");
+var directionNames = "n ne e se s sw w nw".split(" ");
 
+
+// var plan = [
+//   "############################",
+//   "#      #        ##         #",
+//   "#                      o   #",
+//   "#         #######          #",
+//   "#              #         % #",
+//   "#           o ##           #",
+//   "#            ###          ##",
+//   "#                    #######",
+//   "#                          #",
+//   "#                          #",
+//   "#     ###      o  #     o  #",
+//   "#  %  ###         #        #",
+//   "#               ####    ####",
+//   "############################"
+// ];
 
 var plan = [
-  "############################",
-  "#      #        ##        o#",
-  "#                          #",
-  "#                          #",
-  "#         #######          #",
-  "#              #           #",
-  "#             ##           #",
-  "#            ###      # #  #",
-  "#                    # # # #",
-  "#                          #",
-  "#              o           #",
-  "#     ###      o           #",
-  "#     ###                  #",
-  "#                         ##",
-  "############################"
+  "#####################",
+  "#     o     #########",
+  "#             #######",
+  "# ####          #####",
+  "#          o      ###",
+  "#  %          % o  ##",
+  "#                   #",
+  "#####################"
 ];
 
 var world = new World(plan, // plan is map of world
   {
     "#": Wall,
-    "o": BouncingCritter
+    "o": BouncingCritter,
+    "%": WallFlower
   } // Legend obj
 );
-// console.log( world.toString() );
 
-for (var i = 0; i < 5; i++) {
+for (var i = 0; i < 100; i++) {
   world.turn();
   console.log(world.toString());
 }
-// →... five turns of moving critters
+
