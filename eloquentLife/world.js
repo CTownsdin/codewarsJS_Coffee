@@ -3,11 +3,14 @@
 var Grid = require('./grid'),
     Vector = require('./vector'),
     elementFromChar = require('./helper/elementFromChar'),
-    charFromElement = require('./helper/charFromElement');
+    charFromElement = require('./helper/charFromElement'),
+    BouncingCritter = require('./critters/BouncingCritter'),
+    View = require('./view'),
+    directions = require('./directions');
 
 // World ctor
 function World(map, legend) {
-  var grid = new Grid(map[0].length, map.length);
+  var grid = new Grid(map[0].length, map.length);  // grid can be used by function in forEach
   this.grid = grid;
   this.legend = legend;
   map.forEach(function(line, y) {
@@ -15,8 +18,6 @@ function World(map, legend) {
       grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
   });
 }
-  // world .toString()  will build up a maplike string from the worlds
-  // current state by 2d loop over squares on grid
 World.prototype.toString = function() {
   var output = "";
   for (var y = 0; y < this.grid.height; y++) {
@@ -30,7 +31,7 @@ World.prototype.toString = function() {
 };
 World.prototype.turn = function() {
   var acted = [];
-  this.grid.space.forEach(function(critter, vector) {
+  this.grid.forEach(function(critter, vector) {  // grid forEach !
     if (critter.act && acted.indexOf(critter) === -1) {
       acted.push(critter);
       this.letAct(critter, vector);
@@ -41,7 +42,7 @@ World.prototype.letAct = function(critter, vector) {
   var action = critter.act(new View(this, vector));
   if (action && action.type == "move") {
     var dest = this.checkDestination(action, vector);
-    if (dest && this.grid.get(dest) === null) {
+    if (dest && this.grid.get(dest) == null) {
       this.grid.set(vector, null);
       this.grid.set(dest, critter);
     }

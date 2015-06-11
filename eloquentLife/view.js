@@ -1,5 +1,9 @@
 'use strict';
 
+var directions = require('./directions');
+var charFromElement = require('./helper/charFromElement');
+var randomElement = require('./helper/randomElement');
+
 // Views have a world and a vector
 function View(world, vector) {
   this.world = world;    // the world the view is in
