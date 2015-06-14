@@ -10,3 +10,5 @@ Plant.prototype.act = function(context){
   }
   if (this.energy < 20) return { type: 'grow' };
 };
+
+module.exports = Plant;

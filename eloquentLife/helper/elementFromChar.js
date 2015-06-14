@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 function elementFromChar(legend, ch) {
   if (ch == " ") return null;
   // create instance 
