@@ -19,6 +19,41 @@ Player.prototype.moveX = function(step, level, keys) {
   if (obstacle) { level.playerTouched(obstacle); }
   else { this.pos = newPos; }
 };
+var gravity = 30, jumpSpeed = 17;
+Player.prototype.moveY = function(step, level, keys) {
+  this.speed.y += step * gravity;
+  var motion = new Vector(0, this.speed.y * step);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle) { 
+    level.playerTouched(obstacle);
+    if (keys.up && this.speed.y > 0){
+      this.speed.y = -jumpSpeed;
+    }
+    else {
+      this.speed.y = 0;
+    }
+  }
+  else {
+    this.pos = newPos;
+  }
+};
+Player.prototype.act = function(step, level, keys) {
+  this.moveX(step, level, keys);
+  this.moveY(step, level, keys);
+  
+  var otherActor = level.actorAt(this);
+  if (otherActor){ level.playerTouched(otherActor.type, otherActor); }
+  
+  // losing animation
+  if (level.status == "lost") {
+    this.pos.y += step;
+    this.size.y -= step;
+  }
+};
+
+
+
 
 
 // module.exports = Player;

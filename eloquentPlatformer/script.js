@@ -37,21 +37,18 @@ function Level(plan) {
       var fieldType = null;
       var Actor = actorChars[ch];  // Actor is the ctor from the actorChars obj dict
       if (Actor) {  // if Actor was in actorChars obj dict, then...
-        // console.log('found an Actor from dict: ' + Actor);
         this.actors.push(new Actor(new Vector(x, y), ch));  //
       }
-      else if (ch == "x") {  //TODO:  Q?  DRAW OTHERS??  WHO draws the actors arr ?
+      else if (ch == "x") { 
         fieldType = "wall";
       }
-      else if (ch == "!"){  // Q: other lava's ?
+      else if (ch == "!"){  
         fieldType = "lava";
       }
       gridLine.push(fieldType);
     }
     this.grid.push(gridLine);
   }  // end for loops
-  
-  console.log('actors array: ' + this.actors);
   
   // set  Level.player  by filter thru actors
   this.player = this.actors.filter(
@@ -110,7 +107,24 @@ Level.prototype.animate = function(step, keys) {  // step is time in s, keys is 
     step -= thisStep;
   }
 };
-
+Level.prototype.playerTouched = function(type, actor) {
+  if (type == "lava" && this.status == null) {  // ouch!
+    this.status = "lost";
+    this.finishDelay = 1;
+  }
+  else if (type == "coin"){  // TODO:?  score++;
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
+  }
+  // if this level there are not some actors of type coin left,
+  if ( !this.actors.some( function(actor) { return actor.type == "coin"; } ) ){
+    // then player must have got them all and we've won ! 
+    // note:  since this is playerTouched, we just got the last coin !
+    this.status = "won";
+    this.finishDelay = 1;
+  }
+};
 
 // create an element and give it a class
 function elt(name, className) {
@@ -118,7 +132,6 @@ function elt(name, className) {
   if (className){ el.className = className; }
   return el;
 }
-
 
 // num of pixels that a single unit takes up on the screen
 var scale = 20;
@@ -193,21 +206,93 @@ DOMDisplay.prototype.clear = function() {
   this.wrap.parentNode.removeChild(this.wrap);
 };
 
+var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
+function trackKeys(codes) {
+  var pressed = Object.create(null); 
+  function handler(event) {
+    if (codes.hasOwnProperty(event.keyCode)) { 
+      var down = event.type == "keydown";  // T/F, keydown = True, keyup = False
+      pressed[codes[event.keyCode]] = down;  // pop'ing obj to ret here
+      event.preventDefault();
+    }
+  }
+  addEventListener('keydown', handler);
+  addEventListener('keyup', handler);
+  return pressed;  // an obj containing keys pressed
+}
+
+function runAnimation(frameFunc) {
+  var lastTime = null;
+  function frame(time) {
+    var stop = false;
+    if (lastTime != null) {
+      var timeStep = Math.min(time - lastTime, 100) / 1000;
+      stop = frameFunc(timeStep) === false;
+    }
+    lastTime = time;
+    if (!stop) {
+      requestAnimationFrame(frame);
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+var arrows = trackKeys(arrowCodes);
+
+function runLevel(level, Display, andThen) {
+  var display = new Display(document.body, level);
+  runAnimation(function(step) {
+    level.animate(step, arrows);
+    display.drawFrame(step);
+    if (level.isFinished()) {
+      display.clear();
+      if (andThen){
+        andThen(level.status);  // highscore or something fn?
+      }
+      return false;
+    }
+  });
+}
+
+// game is a seq of levels.
+function runGame(plans, Display) {
+  function startLevel(n) {
+    runLevel(new Level(plans[n]), Display, function(status) {
+      if (status == "lost"){
+        startLevel(n);
+      }
+      else if (n < plans.length - 1){
+        startLevel(n + 1);
+      }
+      else {
+        console.log('You Win!');
+        alert('You Win!');
+      }
+    });
+  }
+  startLevel(0);
+}
 
 
 /****************************Instantiate Objects**************************/
+// var simplePlan = [
+//   "                       ",
+//   "                       ",
+//   "  x               = x  ",
+//   "  x          o o    x  ",
+//   "  x @       xxxxx   x  ",
+//   "  xxxxx             x  ",
+//   "      x!!!!!!!!!!!!!x  ",
+//   "      xxxxxxxxxxxxxxx  ",
+//   "                       "
+// ];
 
-var simplePlan = [
-  "                       ",
-  "                       ",
-  "  x               = x  ",
-  "  x          o o    x  ",
-  "  x @       xxxxx   x  ",
-  "  xxxxx             x  ",
-  "      x!!!!!!!!!!!!!x  ",
-  "      xxxxxxxxxxxxxxx  ",
-  "                       "
-];
+// for simpleLevel
+// var simpleLevel = new Level(simplePlan);
+// var display = new DOMDisplay(document.body, simpleLevel);
 
-var simpleLevel = new Level(simplePlan);
-var display = new DOMDisplay(document.body, simpleLevel);
+runGame(GAME_LEVELS, DOMDisplay);
+
+// // for multile levels
+// var moreLevels = new Level(GAME_LEVELS);
+// var display = new DOMDisplay(document.body, moreLevels);
